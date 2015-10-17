@@ -39,6 +39,7 @@ public class Jersey2Component extends DefaultComponent implements RestConsumerFa
 
   @Override
   public Consumer createConsumer(CamelContext camelContext, Processor processor, String verb, String basePath, String uriTemplate, String consumes, String produces, RestConfiguration configuration, Map<String, Object> parameters) throws Exception {
+    System.out.println(">>>>> Hi from createConsumer: " + verb + " " + basePath + " " + consumes);
     return null;
   }
 }

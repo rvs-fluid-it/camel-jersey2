@@ -22,15 +22,15 @@ import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 
 public class Jersey2ComponentTest extends CamelTestSupport {
-  static {
-    System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "info");
-  }
+    static {
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "info");
+    }
 
     @Test
     public void testJersey2() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMinimumMessageCount(1);       
-        
+        mock.expectedMinimumMessageCount(1);
+
         assertMockEndpointsSatisfied();
     }
 
@@ -39,8 +39,8 @@ public class Jersey2ComponentTest extends CamelTestSupport {
         return new RouteBuilder() {
             public void configure() {
                 from("jersey2://foo")
-                  .to("jersey2://bar")
-                  .to("mock:result");
+                        .to("jersey2://bar")
+                        .to("mock:result");
             }
         };
     }
