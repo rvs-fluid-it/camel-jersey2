@@ -1,7 +1,9 @@
 package be.fluid_it.camel.components;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.impl.JndiRegistry;
 import org.apache.camel.test.junit4.CamelTestSupport;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.Test;
 
 public class RestConfigurationTest  extends CamelTestSupport {
@@ -12,6 +14,13 @@ public class RestConfigurationTest  extends CamelTestSupport {
     @Test
     public void testRestGet() {
 
+    }
+
+    @Override
+    protected JndiRegistry createRegistry() throws Exception {
+        JndiRegistry jndiRegistry = super.createRegistry();
+        jndiRegistry.bind(ResourceConfig.class.getName(), new ResourceConfig());
+        return jndiRegistry;
     }
 
     @Override
