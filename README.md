@@ -13,7 +13,7 @@ Usage:
 ```  
 
 The jersey2-engine will be looked up from the Camel registry.   
-It is basically what is needed when you use Camel inside of a Dropwizard application. Since the jersey-2 engine  will be instantiated by Dropwizard and should only passed to the CamelContext.
+It is basically what is needed when you use Camel from within a Dropwizard application. The jersey-2 engine  will allready be instantiated by Dropwizard and hence should only be propagated to the CamelContext.
  
 State:
 ------
@@ -21,3 +21,4 @@ Work in progress.
   
 Planned for version 0.1-1:
 * Http post
+* Http get
