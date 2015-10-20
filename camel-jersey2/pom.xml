@@ -32,6 +32,7 @@
   <properties>
     <camel.version>2.16.0</camel.version>
     <jersey.version>2.19</jersey.version>
+    <guava.version>18.0</guava.version>
   </properties>
 
   <dependencies>
@@ -47,6 +48,11 @@
       <version>${jersey.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
     <!-- logging -->
     <dependency>
       <groupId>org.slf4j</groupId>

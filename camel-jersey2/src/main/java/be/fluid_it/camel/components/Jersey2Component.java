@@ -16,27 +16,35 @@
  */
 package be.fluid_it.camel.components;
 
+import java.util.List;
 import java.util.Map;
 
-import org.apache.camel.CamelContext;
-import org.apache.camel.Consumer;
-import org.apache.camel.Endpoint;
-import org.apache.camel.Processor;
+import com.google.common.base.Strings;
+import org.apache.camel.*;
 import org.apache.camel.impl.DefaultComponent;
+import org.apache.camel.impl.DefaultExchange;
 import org.apache.camel.spi.RestConfiguration;
 import org.apache.camel.spi.RestConsumerFactory;
+import org.apache.camel.spi.Synchronization;
+import org.apache.camel.spi.UnitOfWork;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
 import org.glassfish.jersey.server.model.ResourceMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
+
 
 /**
  * Represents the component that manages {@link Jersey2Endpoint}.
  */
 public class Jersey2Component extends DefaultComponent implements RestConsumerFactory {
+
+  private Logger logger = LoggerFactory.getLogger(getClass());
 
   protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
     Endpoint endpoint = new Jersey2Endpoint(uri, this);
@@ -45,22 +53,43 @@ public class Jersey2Component extends DefaultComponent implements RestConsumerFa
   }
 
   @Override
-  public Consumer createConsumer(CamelContext camelContext, Processor processor, String verb, String basePath, String uriTemplate, String consumes, String produces, RestConfiguration configuration, Map<String, Object> parameters) throws Exception {
+  public Consumer createConsumer(final CamelContext camelContext, final Processor processor, String verb, String basePath, String uriTemplate, String consumes, String produces, RestConfiguration configuration, Map<String, Object> parameters) throws Exception {
     ResourceConfig resourceConfig = (ResourceConfig)camelContext.getRegistry().lookupByName(ResourceConfig.class.getName());
     final Resource.Builder resourceBuilder = Resource.builder();
     resourceBuilder.path(basePath);
-    final ResourceMethod.Builder methodBuilder = resourceBuilder.addMethod(verb.toUpperCase());
-    // TODO
-    methodBuilder.produces(MediaType.TEXT_PLAIN_TYPE)
-            .handledBy(new Inflector<ContainerRequestContext, String>() {
 
+    logger.info(">>>> uriTemplate = " + uriTemplate);
+
+
+    ResourceMethod.Builder methodBuilder = resourceBuilder.addMethod(verb.toUpperCase());
+    if (!Strings.isNullOrEmpty(consumes)) {
+      methodBuilder = methodBuilder.consumes(toMediaType(consumes));
+    }
+    methodBuilder.produces(toMediaType(produces))
+            .handledBy(new Inflector<ContainerRequestContext, String>() {
               @Override
               public String apply(ContainerRequestContext containerRequestContext) {
-                return "Hello World!";
+                try {
+                  Request request = containerRequestContext.getRequest();
+                  DefaultExchange exchange = new DefaultExchange(camelContext);
+                  processor.process(exchange);
+                  return exchange.getIn().getBody().toString();
+                } catch (Exception e) {
+                  e.printStackTrace();
+                  return e.getMessage();
+                }
               }
             });
     Resource resource = resourceBuilder.build();
     resourceConfig.registerResources(resource);
     return null;
+  }
+
+  private MediaType toMediaType(String typeFromRestDSL) {
+    if (Strings.isNullOrEmpty(typeFromRestDSL)) {
+      return MediaType.TEXT_PLAIN_TYPE;
+    } else {
+      return MediaType.valueOf(typeFromRestDSL);
+    }
   }
 }
