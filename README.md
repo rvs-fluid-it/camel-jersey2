@@ -22,3 +22,7 @@ Work in progress.
 Planned for version 0.1-1:
 * Http post
 * Http get
+
+Credits:
+--------
+The technical design and the code is heavily influenced by the Camel Restlet component. 
