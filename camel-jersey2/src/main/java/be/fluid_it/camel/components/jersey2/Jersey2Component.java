@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
+import javax.ws.rs.core.Response;
 
 
 /**
@@ -63,17 +64,20 @@ public class Jersey2Component extends DefaultComponent implements RestConsumerFa
       methodBuilder = methodBuilder.consumes(toMediaType(consumes));
     }
     methodBuilder.produces(toMediaType(produces))
-            .handledBy(new Inflector<ContainerRequestContext, String>() {
+            .handledBy(new Inflector<ContainerRequestContext, Response>() {
               @Override
-              public String apply(ContainerRequestContext containerRequestContext) {
+              public Response apply(ContainerRequestContext containerRequestContext) {
                 try {
                   Request request = containerRequestContext.getRequest();
                   DefaultExchange exchange = new DefaultExchange(camelContext);
                   processor.process(exchange);
-                  return exchange.getIn().getBody().toString();
+                  Response.ResponseBuilder responseBuilder = Response.ok();
+                  new DefaultJersey2Binding().populateJersey2ResponseFromExchange(exchange, responseBuilder);
+                  return responseBuilder.build();
                 } catch (Exception e) {
                   e.printStackTrace();
-                  return e.getMessage();
+                  Response.ResponseBuilder responseBuilder = Response.serverError();
+                  return responseBuilder.entity(e).build();
                 }
               }
             });
