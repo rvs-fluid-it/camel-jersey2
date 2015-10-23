@@ -2,5 +2,7 @@ sudo: false
 language: java
 jdk:
   - oraclejdk7
+before_script:
+   - cd camel-jersey2-modules  
 script:
    - mvn clean install
