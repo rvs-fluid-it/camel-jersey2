@@ -38,7 +38,7 @@
     <dependency>
       <groupId>be.fluid-it.microservice.bundle</groupId>
       <artifactId>microservice-bundle-core</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>0.1-4</version>
     </dependency>
     <dependency>
       <groupId>be.fluid-it.camel.components</groupId>
