@@ -1,4 +1,5 @@
 # camel-jersey2
+[![Build Status](https://api.travis-ci.org/rvs-fluid-it/camel-jersey2.svg)](https://travis-ci.org/rvs-fluid-it/camel-jersey2)
 Camel Jersey2 component so that Camel's Rest DSL can also be bound to the Jersey framework (version 2.x)
 
 See [Camel Rest DSL](http://camel.apache.org/rest-dsl.html)
