@@ -34,7 +34,7 @@ public class DefaultJersey2Binding implements Jersey2Binding, HeaderFilterStrate
 
     @Override
     public void populateExchangeFromJersey2RequestContext(ContainerRequestContext requestContext, Response.ResponseBuilder responseBuilder, Exchange exchange) throws Exception {
-        throw new UnsupportedOperationException("Not yet implemented ...");
+      exchange.getIn().setBody(requestContext.getEntityStream());
     }
 
     @Override
