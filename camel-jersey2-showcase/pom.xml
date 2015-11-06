@@ -29,16 +29,26 @@
   <name>A showcase of the Camel Jersey2 Component</name>
   <!-- The showcase will not be uploaded to the central Maven repository -->
 
+  <properties>
+    <camel.version>2.16.0</camel.version>
+    <dropwizard.version>0.9.1</dropwizard.version>
+    <dropwizard.jersey.version>2.22.1</dropwizard.jersey.version>
+    <dropwizard.jackson.version>2.6.3</dropwizard.jackson.version>
+    <dropwizard.guava.version>18.0</dropwizard.guava.version>
+    <dropwizard.slf4j.version>1.7.12</dropwizard.slf4j.version>
+    <dropwizard.microservice.bundle.version>0.1-6</dropwizard.microservice.bundle.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>io.dropwizard</groupId>
       <artifactId>dropwizard-core</artifactId>
-      <version>0.8.2</version>
+      <version>${dropwizard.version}</version>
     </dependency>
     <dependency>
       <groupId>be.fluid-it.microservice.bundle</groupId>
       <artifactId>microservice-bundle-core</artifactId>
-      <version>0.1-5</version>
+      <version>${dropwizard.microservice.bundle.version}</version>
     </dependency>
     <dependency>
       <groupId>be.fluid-it.camel.components</groupId>
@@ -48,13 +58,13 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-jackson</artifactId>
-      <version>2.16.0</version>
+      <version>${camel.version}</version>
     </dependency>
     <!-- -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.5.1</version>
+      <version>${dropwizard.jackson.version}</version>
     </dependency>
     <!-- -->
     <dependency>
@@ -72,7 +82,7 @@
     <dependency>
       <groupId>be.fluid-it.microservice.bundle</groupId>
       <artifactId>microservice-bundle-testing</artifactId>
-      <version>0.1-5</version>
+      <version>${dropwizard.microservice.bundle.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

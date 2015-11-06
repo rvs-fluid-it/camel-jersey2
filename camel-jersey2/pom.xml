@@ -49,11 +49,6 @@
     <developerConnection>scm:git:git@github.com:rvs-fluid-it/camel-jersey2.git</developerConnection>
     <url>git@github.com:rvs-fluid-it/camel-jersey2.git</url>
   </scm>
-  <properties>
-    <camel.version>2.16.0</camel.version>
-    <jersey.version>2.19</jersey.version>
-    <guava.version>18.0</guava.version>
-  </properties>
   <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
@@ -69,6 +64,14 @@
     </snapshotRepository>
   </distributionManagement>
 
+  <properties>
+    <camel.version>2.16.0</camel.version>
+    <!-- Dropwizard verion 0.9.1 -->
+    <dropwizard.jersey.version>2.22.1</dropwizard.jersey.version>
+    <dropwizard.guava.version>18.0</dropwizard.guava.version>
+    <dropwizard.slf4j.version>1.7.12</dropwizard.slf4j.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.camel</groupId>
@@ -79,19 +82,19 @@
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-server</artifactId>
-      <version>${jersey.version}</version>
+      <version>${dropwizard.jersey.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
+      <version>${dropwizard.guava.version}</version>
     </dependency>
     <!-- logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.6.1</version>
+      <version>${dropwizard.slf4j.version}</version>
     </dependency>
 
     <!-- for testing -->
@@ -104,14 +107,8 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.6.1</version>
+      <version>${dropwizard.slf4j.version}</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId> 
-      <artifactId>log4j</artifactId> 
-      <version>1.2.16</version>
-      <scope>test</scope> 
     </dependency>
   </dependencies>
 
@@ -120,7 +117,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.3</version>
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
