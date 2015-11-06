@@ -1,5 +1,7 @@
 # camel-jersey2
 [![Build Status](https://api.travis-ci.org/rvs-fluid-it/camel-jersey2.svg)](https://travis-ci.org/rvs-fluid-it/camel-jersey2)
+[![Mvn Version](https://img.shields.io/maven-central/v/be.fluid-it.camel.components/camel-jersey2.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22camel-jersey2%22)
+
 Camel Jersey2 component so that Camel's Rest DSL can also be bound to the Jersey framework (version 2.x)
 
 See [Camel Rest DSL](http://camel.apache.org/rest-dsl.html)
