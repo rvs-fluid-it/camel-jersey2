@@ -8,25 +8,27 @@ import org.junit.Test;
 import com.jayway.restassured.RestAssured;
 import org.hamcrest.Matchers;
 
+import java.net.URI;
+
 public class ShowcaseTest {
   @ClassRule
   public static µServiceRule µService = new µServiceRule(ShowcaseService.class);
 
   @Test
   public void testGet() throws Exception {
-    RestAssured.get("/say/hello").then().assertThat().body(Matchers.containsString("Hello World From Route"));
+    RestAssured.get(new URI("http://localhost:8888/say/hello")).then().assertThat().body(Matchers.containsString("Hello World From Route"));
   }
 
   @Test
   public void testPostJson() throws Exception {
     RestAssured.given().body("{ \"firstName\" : \"Bart\", \"lastName\" : \"Simpson\"}").contentType(ContentType.JSON)
-         .then().expect().statusCode(200).and().expect().body("firstName", Matchers.equalTo("Bart")).when().post("/people-json");
+         .then().expect().statusCode(200).and().expect().body("firstName", Matchers.equalTo("Bart")).when().post(new URI("http://localhost:8888/people-json"));
   }
 
   @Test
   public void testPostUrlEncoded() throws Exception {
     RestAssured.given().contentType(ContentType.URLENC).with().parameter("firstName", "Bart").parameter("lastName", "Simpson")
-        .post("/people-encoded").then().statusCode(200);
+        .post(new URI("http://localhost:8888/people-encoded")).then().statusCode(200);
   }
 
 }
