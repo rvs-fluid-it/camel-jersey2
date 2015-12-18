@@ -33,6 +33,7 @@ public class DefaultJersey2Binding implements Jersey2Binding, HeaderFilterStrate
   @Override
   public void populateJersey2ResponseFromExchange(Exchange exchange, Response.ResponseBuilder responseBuilder) throws Exception {
     responseBuilder.status(Response.Status.OK).entity(exchange.getIn().getBody());
+    setHttpHeaders(exchange, responseBuilder);
   }
 
   @Override
@@ -143,6 +144,23 @@ public class DefaultJersey2Binding implements Jersey2Binding, HeaderFilterStrate
         map.put(entry.getKey(), (entry.getValue() != null && entry.getValue().size() > 0 ? entry.getValue().get(0) : null));
       }
       exchange.getIn().setHeader(Exchange.HTTP_QUERY, map);
+    }
+  }
+
+  private void setHttpHeaders(Exchange exchange, Response.ResponseBuilder responseBuilder) {
+    final String contentType = (String) exchange.getIn().getHeader(Exchange.CONTENT_TYPE);
+    if (contentType != null) {
+      responseBuilder.header(HttpHeaders.CONTENT_TYPE, contentType);
+    }
+    final String fileName = (String) exchange.getIn().getHeader(Exchange.FILE_NAME);
+    if (fileName != null) {
+      responseBuilder.header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"");
+    }
+    final Boolean cache = exchange.getIn().getHeader(Exchange.DISABLE_HTTP_STREAM_CACHE, Boolean.class);
+    if (cache == null || cache) {
+      final CacheControl cacheControl = new CacheControl();
+      cacheControl.setNoCache(true);
+      responseBuilder.cacheControl(cacheControl);
     }
   }
 
